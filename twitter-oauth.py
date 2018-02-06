@@ -1,3 +1,5 @@
+#Lecture 9 and 10
+
 from requests_oauthlib import OAuth1Session
 import secrets
 
