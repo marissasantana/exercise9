@@ -1,12 +1,12 @@
 from requests_oauthlib import OAuth1Session
-import secret_data
+import secrets
 import json
 
-client_key = secret_data.CONSUMER_KEY
-client_secret = secret_data.CONSUMER_SECRET
+client_key = secrets.CONSUMER_KEY
+client_secret = secrets.CONSUMER_SECRET
 
-resource_owner_key = secret_data.ACCESS_KEY
-resource_owner_secret = secret_data.ACCESS_SECRET
+resource_owner_key = secrets.ACCESS_KEY
+resource_owner_secret = secrets.ACCESS_SECRET
 
 protected_url = 'https://api.twitter.com/1.1/account/settings.json'
 
@@ -15,9 +15,14 @@ oauth = OAuth1Session(client_key,
                           resource_owner_key=resource_owner_key,
                           resource_owner_secret=resource_owner_secret)
 
+r = oauth.get(protected_url)
+
 protected_url = 'https://api.twitter.com/1.1/search/tweets.json'
 params = {'q':'food'}
 r = oauth.get(protected_url, params=params)
-r_text = r.text
-loaded_text = json.loads(r_text)
-print(loaded_text["statuses"][10])
+tweets = json.loads(r.text)
+
+print("LIST OF TWEETS")
+for each_tweet in tweets["statuses"]:
+    print(each_tweet["user"]["name"])
+    print(each_tweet["text"])
